@@ -98,7 +98,6 @@ int main(int argc, char** argv) {
 
     /* Read the port number from the first command line argument. */
     int port = atoi(argv[1]);
-	int dir = argv[2]; 
 
     /* Create a socket to which clients will connect. */
     int server_sock = socket(AF_INET6, SOCK_STREAM, 0);
