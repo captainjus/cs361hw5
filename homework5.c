@@ -195,8 +195,7 @@ int main(int argc, char** argv) {
 
 		/* Allocate some memory for the arguments that we're going to pass to our
 		* threads when we create them. */
-		struct thread_arg *arguments =
-			realloc(sizeof(struct thread_arg));
+		arguments = realloc(arguments, sizeof(struct thread_arg));
 		//if (arguments == NULL) {
 		//	printf("malloc() failed\n");
 		//	exit(1);
@@ -204,7 +203,7 @@ int main(int argc, char** argv) {
 
 		/* Allocate some memory for the thread structures that the pthreads library
 		* uses to store thread state information. */
-		pthread_t *threads = reallocalloc(sizeof(pthread_t));
+		threads = reallocalloc(threads, sizeof(pthread_t));
 		//if (threads == NULL) {
 		//	printf("malloc() failed\n");
 		//	exit(1);
