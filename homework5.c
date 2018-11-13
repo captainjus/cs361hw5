@@ -148,7 +148,7 @@ int main(int argc, char** argv) {
         exit(1);
     }
 
-	chdir(argv[2]);
+	//chdir(argv[2]);
 	
     /* Now that we've bound to an address and port, we tell the OS that we're
      * ready to start listening for client connections.  This effectively
@@ -160,7 +160,7 @@ int main(int argc, char** argv) {
         perror("Error listening for connections");
         exit(1);
     }
-
+	/*
 	struct thread_arg {
 		int thread_number;
 		char name[100];
@@ -169,7 +169,7 @@ int main(int argc, char** argv) {
 	struct thread_arg *arguments = NULL;
 	pthread_t *threads = NULL;
 	int num_threads = 0;
-	
+	*/
     while(1) {
         /* Declare a socket for the client connection. */
         int sock;
@@ -195,7 +195,7 @@ int main(int argc, char** argv) {
 
 		/* Allocate some memory for the arguments that we're going to pass to our
 		* threads when we create them. */
-		arguments = realloc(arguments, sizeof(struct thread_arg));
+		//arguments = realloc(arguments, sizeof(struct thread_arg));
 		//if (arguments == NULL) {
 		//	printf("malloc() failed\n");
 		//	exit(1);
@@ -203,18 +203,19 @@ int main(int argc, char** argv) {
 
 		/* Allocate some memory for the thread structures that the pthreads library
 		* uses to store thread state information. */
-		threads = realloc(threads, sizeof(pthread_t));
+		//threads = realloc(threads, sizeof(pthread_t));
 		//if (threads == NULL) {
 		//	printf("malloc() failed\n");
 		//	exit(1);
 		//}
-		
+		/*
 		int retval = pthread_create(&threads[num_threads], NULL,
                                     thread_function, (void *) &arguments[num_threads]);
         if (retval) {
             printf("pthread_create() failed\n");
             exit(1);
         }
+		*/
         /* At this point, you have a connected socket (named sock) that you can
          * use to send() and recv(). */
 
