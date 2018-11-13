@@ -161,6 +161,10 @@ int main(int argc, char** argv) {
         exit(1);
     }
 
+	struct thread_arg {
+		int thread_number;
+		char name[100];
+	};
 	
 	struct thread_arg *arguments = NULL;
 	pthread_t *threads = NULL;
