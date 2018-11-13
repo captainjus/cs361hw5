@@ -12,6 +12,7 @@
 #include <sys/types.h>
 #include <sys/uio.h>
 #include <unistd.h>
+#include <dirent.h>		// from directory_reading_example
 
 #define BACKLOG (10)
 
@@ -52,7 +53,6 @@ char* parseRequest(char* request) {
   sscanf(request, "GET %s HTTP/1.", buffer);
   return buffer; 
 }
-
 
 void serve_request(int client_fd){
   int read_fd;
@@ -161,6 +161,11 @@ int main(int argc, char** argv) {
         exit(1);
     }
 
+	
+	struct thread_arg *arguments = NULL;
+	pthread_t *threads = NULL;
+	int num_threads = 0;
+	
     while(1) {
         /* Declare a socket for the client connection. */
         int sock;
@@ -184,6 +189,29 @@ int main(int argc, char** argv) {
             exit(1);
         }
 
+		/* Allocate some memory for the arguments that we're going to pass to our
+		* threads when we create them. */
+		struct thread_arg *arguments =
+			realloc(sizeof(struct thread_arg));
+		//if (arguments == NULL) {
+		//	printf("malloc() failed\n");
+		//	exit(1);
+		//}
+
+		/* Allocate some memory for the thread structures that the pthreads library
+		* uses to store thread state information. */
+		pthread_t *threads = reallocalloc(sizeof(pthread_t));
+		//if (threads == NULL) {
+		//	printf("malloc() failed\n");
+		//	exit(1);
+		//}
+		
+		int retval = pthread_create(&threads[i], NULL,
+                                    thread_function, (void *) &arguments[i]);
+        if (retval) {
+            printf("pthread_create() failed\n");
+            exit(1);
+        }
         /* At this point, you have a connected socket (named sock) that you can
          * use to send() and recv(). */
 
