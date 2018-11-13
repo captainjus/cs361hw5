@@ -203,14 +203,14 @@ int main(int argc, char** argv) {
 
 		/* Allocate some memory for the thread structures that the pthreads library
 		* uses to store thread state information. */
-		threads = reallocalloc(threads, sizeof(pthread_t));
+		threads = realloc(threads, sizeof(pthread_t));
 		//if (threads == NULL) {
 		//	printf("malloc() failed\n");
 		//	exit(1);
 		//}
 		
-		int retval = pthread_create(&threads[i], NULL,
-                                    thread_function, (void *) &arguments[i]);
+		int retval = pthread_create(&threads[num_threads], NULL,
+                                    thread_function, (void *) &arguments[num_threads]);
         if (retval) {
             printf("pthread_create() failed\n");
             exit(1);
