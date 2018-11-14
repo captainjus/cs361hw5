@@ -75,7 +75,7 @@ void serve_request(int client_fd){
   requested_file = parseRequest(client_buf);
   printf("%s\n", requested_file);
   
-  char * request_str = ;
+  char * request_str = NULL;
 		
   if (strstr(requested_file, ".html")){
 	  request_str = "HTTP/1.0 200 OK\r\n"
