@@ -192,7 +192,7 @@ int main(int argc, char** argv) {
 
 
 	//check if file is a directory
-	if (S_ISREG(file_stat.st_mode)) {
+	if (S_ISDIR(file_stat.st_mode)) {
 		printf("%s is a directory\n", argv[2]);
 		chdir(argv[2]);
 	} else {
