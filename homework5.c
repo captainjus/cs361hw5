@@ -57,25 +57,28 @@ char* parseRequest(char* request) {
 void serve_request(int client_fd){
   int read_fd;
   int bytes_read;
-  int file_offset = 0;
+  int file_offset = 0; // Amount of bytes
+  int retval;
   char client_buf[4096];
   char send_buf[4096];
   char filename[4096];
   char * requested_file;
   memset(client_buf,0,4096);
   memset(filename,0,4096);
+  
   while(1){
-
     file_offset += recv(client_fd,&client_buf[file_offset],4096,0);
     if(strstr(client_buf,"\r\n\r\n"))
       break;
   }
+  
   requested_file = parseRequest(client_buf);
-  send(client_fd,request_str,strlen(request_str),0);
+  retval = send(client_fd,request_str,strlen(request_str),0);
   // take requested_file, add a . to beginning, open that file
   filename[0] = '.';
   strncpy(&filename[1],requested_file,4095);
   read_fd = open(filename,0,0);
+  
   while(1){
     bytes_read = read(read_fd,send_buf,4096);
     if(bytes_read == 0)
@@ -83,6 +86,7 @@ void serve_request(int client_fd){
 
     send(client_fd,send_buf,bytes_read,0);
   }
+  
   close(read_fd);
   close(client_fd);
   return;
