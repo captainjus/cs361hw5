@@ -74,6 +74,7 @@ void serve_request(int client_fd){
   
   requested_file = parseRequest(client_buf);
   retval = send(client_fd,request_str,strlen(request_str),0);
+  printf("%d\n", retval);
   // take requested_file, add a . to beginning, open that file
   filename[0] = '.';
   strncpy(&filename[1],requested_file,4095);
