@@ -182,7 +182,7 @@ int main(int argc, char** argv) {
         exit(1);
     }
 
-	//chdir(argv[2]);
+	chdir(argv[2]);
 	
     /* Now that we've bound to an address and port, we tell the OS that we're
      * ready to start listening for client connections.  This effectively
