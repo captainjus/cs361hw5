@@ -182,7 +182,24 @@ int main(int argc, char** argv) {
         exit(1);
     }
 
-	chdir(argv[2]);
+	// BORROWED FROM EXAMPLE //
+	//check if file exists
+	struct stat file_stat;
+	if (stat(argv[PATH_ARG], &file_stat) != 0) {
+		printf("%s does not exist!  Program exiting\n", argv[PATH_ARG]);
+		exit(-1);
+	}
+
+
+	//check if file is a directory
+	if (S_ISDIR(file_stat.st_mode)) {
+		printf("%s is a directory\n", argv[PATH_ARG]);
+		chdir(argv[2]);
+	} else {
+		printf("%s is NOT a directory!  Program exiting\n", argv[PATH_ARG]);
+		exit(-1);
+	}
+	// BORROWED FROM EXAMPLE //
 	
     /* Now that we've bound to an address and port, we tell the OS that we're
      * ready to start listening for client connections.  This effectively
