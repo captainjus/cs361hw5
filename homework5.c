@@ -73,6 +73,7 @@ void serve_request(int client_fd){
   }
   
   requested_file = parseRequest(client_buf);
+  printf("%s\n", requested_file);
   retval = send(client_fd,request_str,strlen(request_str),0);
   printf("%d\n", retval);
   // take requested_file, add a . to beginning, open that file
@@ -85,7 +86,7 @@ void serve_request(int client_fd){
     if(bytes_read == 0)
       break;
 
-    send(client_fd,send_buf,bytes_read,0);
+    retval = send(client_fd,send_buf,bytes_read,0);
   }
   
   close(read_fd);
