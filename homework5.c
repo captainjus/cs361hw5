@@ -74,6 +74,9 @@ void serve_request(int client_fd){
   
   requested_file = parseRequest(client_buf);
   printf("%s\n", requested_file);
+  
+  char * request_str = "HTTP/1.0 200 OK\r\n"
+        "Content-type: text/html; charset=UTF-8\r\n\r\n";
   retval = send(client_fd,request_str,strlen(request_str),0);
   printf("%d\n", retval);
   // take requested_file, add a . to beginning, open that file
