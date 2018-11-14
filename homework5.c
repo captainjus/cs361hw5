@@ -75,8 +75,33 @@ void serve_request(int client_fd){
   requested_file = parseRequest(client_buf);
   printf("%s\n", requested_file);
   
-  char * request_str = "HTTP/1.0 200 OK\r\n"
+  char * request_str = ;
+		
+  if (strstr(requested_file, ".html")){
+	  request_str = "HTTP/1.0 200 OK\r\n"
         "Content-type: text/html; charset=UTF-8\r\n\r\n";
+  }
+  else if (strstr(requested_file, ".gif")){
+	  request_str = "HTTP/1.0 200 OK\r\n"
+        "Content-type: image/gif; charset=UTF-8\r\n\r\n";
+  }
+  else if (strstr(requested_file, ".png")){
+	  request_str = "HTTP/1.0 200 OK\r\n"
+        "Content-type: image/png; charset=UTF-8\r\n\r\n";
+  }
+  else if (strstr(requested_file, ".jpg")){
+	  request_str = "HTTP/1.0 200 OK\r\n"
+        "Content-type: image/gif; charset=UTF-8\r\n\r\n";
+  }
+  else if (strstr(requested_file, ".pdf")){
+	  request_str = "HTTP/1.0 200 OK\r\n"
+        "Content-type: application/pdf; charset=UTF-8\r\n\r\n";
+  }
+  else{
+	  request_str = "HTTP/1.0 200 OK\r\n"
+        "Content-type: text/plain; charset=UTF-8\r\n\r\n";
+  }
+  
   retval = send(client_fd,request_str,strlen(request_str),0);
   printf("%d\n", retval);
   // take requested_file, add a . to beginning, open that file
