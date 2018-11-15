@@ -77,8 +77,14 @@ void serve_request(int client_fd){
   
   char * request_str = NULL;
 		
+  printf("Current working directory: %s", getcwd(request_str, 600));
   struct stat file_stat;
-if (strstr(requested_file, ".html")){
+  if (stat(requested_file, &file_stat) != 0) { // File doesn't exist
+	  request_str = "HTTP/1.0 404 Not found\r\n"
+		"Content-type: text/html; charset=UTF-8\r\n\r\n";
+	  requested_file = "404.html";
+  }	
+  else if (strstr(requested_file, ".html")){
 	  request_str = "HTTP/1.0 200 OK\r\n"
         "Content-type: text/html; charset=UTF-8\r\n\r\n";
   }
