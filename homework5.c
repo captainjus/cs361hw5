@@ -277,7 +277,7 @@ int main(int argc, char** argv) {
 		void *serve_close_wrapper(sock){
 			serve_request(sock);
 			close(sock);
-			return;
+			return NULL;
 		}
 		
         /* ALWAYS check the return value of send().  Also, don't hardcode
