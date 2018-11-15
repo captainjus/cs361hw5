@@ -73,7 +73,7 @@ void serve_request(int client_fd){
   }
   
   requested_file = parseRequest(client_buf);
-  //printf("%s\n", requested_file);
+  printf("%s\n", requested_file);
   
   char * request_str = NULL;
 		
