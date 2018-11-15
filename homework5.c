@@ -286,7 +286,7 @@ int main(int argc, char** argv) {
 		 
 		// WRAPPER FUNCTION FOR SERVE_REQUEST AND CLOSE //
 		void *serve_close_wrapper(void *argument){
-			struct thread_arg my_arg = (struct thread_arg *) argument;
+			struct thread_arg *my_arg = (struct thread_arg *) argument;
 			serve_request(my_arg->socket_num);
 			close(my_arg->socket_num);
 			return NULL;
