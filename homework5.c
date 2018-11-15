@@ -106,7 +106,6 @@ void serve_request(int client_fd){
 		  request_str = "HTTP/1.0 200 OK\r\n"
 			"Content-type: text/html; charset=UTF-8\r\n\r\n";
 		  requested_file = "/index.html";
-		  exit(0);
 	  }
   }
   else if (strstr(requested_file, ".html")){
