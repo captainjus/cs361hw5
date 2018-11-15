@@ -94,7 +94,11 @@ void serve_request(int client_fd){
 	   
 	  close(client_fd);
 	  return;
-  }	
+  }
+  else if (S_ISDIR(file_stat.st_mode)){
+	  printf("Test testing directory found, exiting...");
+	  exit(0);
+  }
   else if (strstr(requested_file, ".html")){
 	  request_str = "HTTP/1.0 200 OK\r\n"
         "Content-type: text/html; charset=UTF-8\r\n\r\n";
