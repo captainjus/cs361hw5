@@ -229,7 +229,7 @@ int main(int argc, char** argv) {
         perror("Error listening for connections");
         exit(1);
     }
-	/*
+	
 	struct thread_arg {
 		int thread_number;
 		char name[100];
@@ -238,7 +238,7 @@ int main(int argc, char** argv) {
 	struct thread_arg *arguments = NULL;
 	pthread_t *threads = NULL;
 	int num_threads = 0;
-	*/
+	
     while(1) {
         /* Declare a socket for the client connection. */
         int sock;
@@ -264,27 +264,22 @@ int main(int argc, char** argv) {
 
 		/* Allocate some memory for the arguments that we're going to pass to our
 		* threads when we create them. */
-		//arguments = realloc(arguments, sizeof(struct thread_arg));
-		//if (arguments == NULL) {
-		//	printf("malloc() failed\n");
-		//	exit(1);
-		//}
+		arguments = realloc(arguments, sizeof(struct thread_arg));
+		if (arguments == NULL) {
+			printf("malloc() failed\n");
+			exit(1);
+		}
 
 		/* Allocate some memory for the thread structures that the pthreads library
 		* uses to store thread state information. */
-		//threads = realloc(threads, sizeof(pthread_t));
-		//if (threads == NULL) {
-		//	printf("malloc() failed\n");
-		//	exit(1);
-		//}
-		/*
-		int retval = pthread_create(&threads[num_threads], NULL,
-                                    thread_function, (void *) &arguments[num_threads]);
-        if (retval) {
-            printf("pthread_create() failed\n");
-            exit(1);
-        }
-		*/
+		threads = realloc(threads, sizeof(pthread_t));
+		if (threads == NULL) {
+			printf("malloc() failed\n");
+			exit(1);
+		}
+		
+	
+		
         /* At this point, you have a connected socket (named sock) that you can
          * use to send() and recv(). */
 
@@ -296,14 +291,24 @@ int main(int argc, char** argv) {
 			return NULL;
 		}
 		
+		int retval = pthread_create(&threads[num_threads], NULL,
+                                    serve_close_wrapper, (void *) &arguments[num_threads]);
+        if (retval) {
+            printf("pthread_create() failed\n");
+            exit(1);
+        }
+		
+		num_threads = num_threads + 1;
         /* ALWAYS check the return value of send().  Also, don't hardcode
          * values.  This is just an example.  Do as I say, not as I do, etc. */
-        serve_request(sock);
+        //serve_request(sock);
 
         /* Tell the OS to clean up the resources associated with that client
          * connection, now that we're done with it. */
-        close(sock);
+        //close(sock);
+		
+		
     }
-
+	pthread_j
     close(server_sock);
 }
