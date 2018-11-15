@@ -230,6 +230,10 @@ int main(int argc, char** argv) {
         exit(1);
     }
 	
+	struct thread_arg {
+		int socket_num;
+	};
+	
 	struct thread_arg *arguments = NULL;
 	pthread_t *threads = NULL;
 	int num_threads = 0;
@@ -265,6 +269,15 @@ int main(int argc, char** argv) {
 			exit(1);
 		}
 		
+		/* Allocate some memory for the arguments that we're going to pass to our
+		* threads when we create them. */
+		arguments = realloc(arguments, (num_threads+1) * sizeof(thread_arg));
+		if (threads == NULL) {
+			printf("malloc() failed\n");
+			exit(1);
+		}
+		
+		arguments[num_threads].socket_num = sock;
 	
 		
         /* At this point, you have a connected socket (named sock) that you can
@@ -272,17 +285,16 @@ int main(int argc, char** argv) {
 
 		 
 		// WRAPPER FUNCTION FOR SERVE_REQUEST AND CLOSE //
-		void *serve_close_wrapper(void *sock){
-			int* wrapsock = (int) sock;
-			serve_request(*wrapsock);
-			close(*wrapsock);
+		void *serve_close_wrapper(void *argument){
+			struct thread_arg my_arg = (struct thread_arg *) argument;
+			serve_request(my_arg->socket_num);
+			close(my_arg->socket_num);
 			return NULL;
 		}
 		
 		
-		
 		int retval = pthread_create(&threads[num_threads], NULL,
-                                    serve_close_wrapper, &sock);
+                                    serve_close_wrapper, &arguments[num_threads]);
         if (retval) {
             printf("pthread_create() failed\n");
             exit(1);
