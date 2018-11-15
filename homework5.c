@@ -282,7 +282,7 @@ int main(int argc, char** argv) {
 		
 		
 		int retval = pthread_create(&threads[num_threads], NULL,
-                                    serve_close_wrapper, sock);
+                                    serve_close_wrapper, &sock);
         if (retval) {
             printf("pthread_create() failed\n");
             exit(1);
