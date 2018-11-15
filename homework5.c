@@ -54,7 +54,7 @@ char* parseRequest(char* request) {
   return buffer; 
 }
 
-void serve_request(int client_fd, stat file_stat){
+void serve_request(int client_fd){
   int read_fd;
   int bytes_read;
   int file_offset = 0; // Amount of bytes
@@ -275,13 +275,14 @@ int main(int argc, char** argv) {
 		 
 		// WRAPPER FUNCTION FOR SERVE_REQUEST AND CLOSE //
 		void *serve_close_wrapper(sock){
-			serve_request(sock, file_stat);
+			serve_request(sock);
 			close(sock);
+			return;
 		}
 		
         /* ALWAYS check the return value of send().  Also, don't hardcode
          * values.  This is just an example.  Do as I say, not as I do, etc. */
-        serve_request(sock, file_stat);
+        serve_request(sock);
 
         /* Tell the OS to clean up the resources associated with that client
          * connection, now that we're done with it. */
