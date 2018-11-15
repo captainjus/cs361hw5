@@ -96,8 +96,14 @@ void serve_request(int client_fd){
 	  return;
   }
   else if (S_ISDIR(file_stat.st_mode)){
-	  printf("Test testing directory found, exiting...");
-	  exit(0);
+	  if(stat("index.html", &file_stat) != 0) { // index.html not found
+		  printf("index not found. Exiting\n");
+		  exit(0);
+	  }
+	  else{ // index.html is found, run and sent that
+		  printf("index found. Exiting\n");
+		  exit(0);
+	  }
   }
   else if (strstr(requested_file, ".html")){
 	  request_str = "HTTP/1.0 200 OK\r\n"
