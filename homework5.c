@@ -230,7 +230,7 @@ int main(int argc, char** argv) {
         exit(1);
     }
 	
-	struct thread_arg {
+	struct thread_arg{
 		int socket_num;
 	};
 	
@@ -271,7 +271,7 @@ int main(int argc, char** argv) {
 		
 		/* Allocate some memory for the arguments that we're going to pass to our
 		* threads when we create them. */
-		arguments = realloc(arguments, (num_threads+1) * sizeof(thread_arg));
+		arguments = realloc(arguments, (num_threads+1) * sizeof(struct thread_arg));
 		if (threads == NULL) {
 			printf("malloc() failed\n");
 			exit(1);
