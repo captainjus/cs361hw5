@@ -73,16 +73,28 @@ void serve_request(int client_fd){
   }
   
   requested_file = parseRequest(client_buf);
-  printf("%s\n", requested_file);
+  //printf("%s\n", requested_file);
   
   char * request_str = NULL;
 		
-  printf("Current working directory: %s", getcwd(request_str, 600));
+  //printf("Current working directory: %s", getcwd(request_str, 600));
   struct stat file_stat;
   if (stat(&requested_file[1], &file_stat) != 0) { // File doesn't exist
 	  request_str = "HTTP/1.0 404 Not found\r\n"
 		"Content-type: text/html; charset=UTF-8\r\n\r\n";
-	  requested_file = "/404.html";
+	  //requested_file = "/404.html";
+	  retval = send(client_fd,request_str,strlen(request_str),0);
+	  
+	  send_buf = "<html><head><title>404</title></head>"
+			"<body>"
+			"<h1>404 File Not Found!</h1>"
+			"</body></html>";
+
+	  retval = send(client_fd,send_buf,strlen(send_buf),0);
+	  
+	  close(read_fd);
+	  close(client_fd);
+	  return;
   }	
   else if (strstr(requested_file, ".html")){
 	  request_str = "HTTP/1.0 200 OK\r\n"
@@ -110,7 +122,7 @@ void serve_request(int client_fd){
   }
   
   retval = send(client_fd,request_str,strlen(request_str),0);
-  printf("%d\n", retval);
+  //printf("%d\n", retval);
   // take requested_file, add a . to beginning, open that file
   filename[0] = '.';
   strncpy(&filename[1],requested_file,4095);
