@@ -230,11 +230,6 @@ int main(int argc, char** argv) {
         exit(1);
     }
 	
-	struct thread_arg {
-		int thread_number;
-		char name[100];
-	};
-	
 	struct thread_arg *arguments = NULL;
 	pthread_t *threads = NULL;
 	int num_threads = 0;
@@ -262,17 +257,9 @@ int main(int argc, char** argv) {
             exit(1);
         }
 
-		/* Allocate some memory for the arguments that we're going to pass to our
-		* threads when we create them. */
-		arguments = realloc(arguments, sizeof(struct thread_arg));
-		if (arguments == NULL) {
-			printf("malloc() failed\n");
-			exit(1);
-		}
-
 		/* Allocate some memory for the thread structures that the pthreads library
 		* uses to store thread state information. */
-		threads = realloc(threads, sizeof(pthread_t));
+		threads = realloc(threads, (num_threads+1) * sizeof(pthread_t));
 		if (threads == NULL) {
 			printf("malloc() failed\n");
 			exit(1);
@@ -285,14 +272,17 @@ int main(int argc, char** argv) {
 
 		 
 		// WRAPPER FUNCTION FOR SERVE_REQUEST AND CLOSE //
-		void *serve_close_wrapper(sock){
+		void *serve_close_wrapper(void *sock){
+			int wrapsock = (int*) sock;
 			serve_request(sock);
 			close(sock);
 			return NULL;
 		}
 		
+		
+		
 		int retval = pthread_create(&threads[num_threads], NULL,
-                                    serve_close_wrapper, (void *) &arguments[num_threads]);
+                                    serve_close_wrapper, (void *) sock);
         if (retval) {
             printf("pthread_create() failed\n");
             exit(1);
@@ -309,6 +299,6 @@ int main(int argc, char** argv) {
 		
 		
     }
-	pthread_j
+	
     close(server_sock);
 }
