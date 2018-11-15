@@ -78,8 +78,7 @@ void serve_request(int client_fd){
   char * request_str = NULL;
 		
   struct stat file_stat;
-
-  else if (strstr(requested_file, ".html")){
+if (strstr(requested_file, ".html")){
 	  request_str = "HTTP/1.0 200 OK\r\n"
         "Content-type: text/html; charset=UTF-8\r\n\r\n";
   }
