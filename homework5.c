@@ -85,7 +85,7 @@ void serve_request(int client_fd){
 	  //requested_file = "/404.html";
 	  retval = send(client_fd,request_str,strlen(request_str),0);
 	  
-	  send_buf = "<html><head><title>404</title></head>"
+	  char* send_buf = "<html><head><title>404</title></head>"
 			"<body>"
 			"<h1>404 File Not Found!</h1>"
 			"</body></html>";
