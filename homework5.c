@@ -54,7 +54,7 @@ char* parseRequest(char* request) {
   return buffer; 
 }
 
-void serve_request(int client_fd){
+void serve_request(int client_fd, stat file_stat){
   int read_fd;
   int bytes_read;
   int file_offset = 0; // Amount of bytes
@@ -76,6 +76,8 @@ void serve_request(int client_fd){
   printf("%s\n", requested_file);
   
   char * request_str = NULL;
+		
+  
 		
   if (strstr(requested_file, ".html")){
 	  request_str = "HTTP/1.0 200 OK\r\n"
@@ -182,7 +184,7 @@ int main(int argc, char** argv) {
         exit(1);
     }
 
-	// BORROWED FROM EXAMPLE //
+	// BORROWED FROM EXAMPLE // ****** Initial check if Directory exists ************
 	//check if file exists
 	struct stat file_stat;
 	if (stat(argv[2], &file_stat) != 0) {
@@ -270,9 +272,16 @@ int main(int argc, char** argv) {
         /* At this point, you have a connected socket (named sock) that you can
          * use to send() and recv(). */
 
+		 
+		// WRAPPER FUNCTION FOR SERVE_REQUEST AND CLOSE //
+		void *serve_close_wrapper(sock){
+			serve_request(sock);
+			close(sock);
+		}
+		
         /* ALWAYS check the return value of send().  Also, don't hardcode
          * values.  This is just an example.  Do as I say, not as I do, etc. */
-        serve_request(sock);
+        serve_request(sock, file_stat);
 
         /* Tell the OS to clean up the resources associated with that client
          * connection, now that we're done with it. */
