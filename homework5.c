@@ -273,9 +273,9 @@ int main(int argc, char** argv) {
 		 
 		// WRAPPER FUNCTION FOR SERVE_REQUEST AND CLOSE //
 		void *serve_close_wrapper(void *sock){
-			int wrapsock = (int) *sock;
-			serve_request(wrapsock);
-			close(wrapsock);
+			int* wrapsock = (int) sock;
+			serve_request(*wrapsock);
+			close(*wrapsock);
 			return NULL;
 		}
 		
