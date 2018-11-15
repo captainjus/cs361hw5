@@ -91,8 +91,7 @@ void serve_request(int client_fd){
 			"</body></html>";
 
 	  retval = send(client_fd,send_buf,strlen(send_buf),0);
-	  
-	  close(read_fd);
+	   
 	  close(client_fd);
 	  return;
   }	
