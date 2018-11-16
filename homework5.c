@@ -34,6 +34,42 @@ char * index_body = "<li><a href=\"%s\">%s</a>";
 
 char * index_ftr = "</ul><hr></body></html>";
 
+char* get_directory_contents(char* directory_path)
+{
+  char* directory_listing = NULL;
+  
+  // open directory path up 
+  DIR* path = opendir(directory_path);
+
+  // check to see if opening up directory was successful
+  if(path != NULL)
+  {
+      directory_listing = (char*)malloc(sizeof(char)*1013);
+      directory_listing[0] = '\0';
+
+      // stores underlying info of files and sub_directories of directory_path
+      struct dirent* underlying_file = NULL;
+
+      // iterate through all of the  underlying files of directory_path
+      while((underlying_file = readdir(path)) != NULL)
+      {
+          strcat(directory_listing, underlying_file->d_name);
+          strcat(directory_listing, "\n");
+      }
+	  
+		//<html><body>
+		//<img src="monorail.jpg">
+		//<img src="skype.png">
+		//<img src="google.gif">
+		//</body></html>
+
+      
+      closedir(path);
+  }
+
+  return directory_listing;
+}
+
 /* char* parseRequest(char* request)
  * Args: HTTP request of the form "GET /path/to/resource HTTP/1.X" 
  *
@@ -99,7 +135,15 @@ void serve_request(int client_fd){
 	  //chdir(&requested_file[1]);
 	  if(stat(strcat(requested_file, "index.html"), &file_stat) != 0) { // index.html not found
 		  printf("index.html not found. Exiting\n");
-		  exit(0);
+		  
+		  request_str = "HTTP/1.0 200 OK\r\n"
+			"Content-type: text/html; charset=UTF-8\r\n\r\n";
+			
+		  //send_buf = get_directory_contents(&requested_file[1]);
+		  //retval = send(client_fd,send_buf,strlen(send_buf),0);
+	   
+	      close(client_fd);
+		  return;
 	  }
 	  else{ // index.html is found, run and send that
 		  printf("index.html found. Exiting\n");
@@ -127,6 +171,10 @@ void serve_request(int client_fd){
   else if (strstr(requested_file, ".pdf")){
 	  request_str = "HTTP/1.0 200 OK\r\n"
         "Content-type: application/pdf; charset=UTF-8\r\n\r\n";
+  }
+  else if (strstr(requested_file, ".ico")){
+	  request_str = "HTTP/1.0 200 OK\r\n"
+        "Content-type: image/x-icon; charset=UTF-8\r\n\r\n";
   }
   else{
 	  request_str = "HTTP/1.0 200 OK\r\n"
