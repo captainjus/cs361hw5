@@ -154,10 +154,11 @@ void serve_request(int client_fd){
 		  printf("index.html not found. %s\n", index_check);
 		  
 		  char* send_buf = get_directory_contents(&requested_file[1]);
+		  chdir(&requested_file[1]);
 		  retval = send(client_fd,send_buf,strlen(send_buf),0);
 		  
 		  close(client_fd);
-		  chdir(&requested_file[1]);
+		  
 		  return;
 	  }
 	  else{ // index.html is found, run and send that
