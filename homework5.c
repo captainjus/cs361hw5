@@ -133,7 +133,7 @@ void serve_request(int client_fd){
   }
   else if (S_ISDIR(file_stat.st_mode)){ // before looking for files we check dir
 	  //chdir(&requested_file[1]);
-	  char* index_check = strcat(requested_file, "/index.html");
+	  char* index_check = strcat(&requested_file[1], "/index.html");
 	  if(stat(index_check, &file_stat) != 0) { // index.html not found
 		  printf("index.html not found. %s\n", index_check);
 		  
