@@ -135,10 +135,12 @@ void serve_request(int client_fd){
 	  char* index_check = strcat(&requested_file[1], "/index.html");
 	  if(stat(index_check, &file_stat) != 0) { // index.html not found
 		  printf("index.html not found. %s\n", index_check);
+		  exit(0);
 
 	  }
 	  else{ // index.html is found, run and send that
 		  printf("index.html found. %s\n", index_check);
+		  exit(0);
 	  }
   }
   else if (strstr(requested_file, ".html")){
