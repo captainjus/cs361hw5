@@ -157,7 +157,7 @@ void serve_request(int client_fd){
 		  retval = send(client_fd,send_buf,strlen(send_buf),0);
 		  
 		  close(client_fd);
-		  chdir(&request_file[1]);
+		  chdir(&requested_file[1]);
 		  return;
 	  }
 	  else{ // index.html is found, run and send that
