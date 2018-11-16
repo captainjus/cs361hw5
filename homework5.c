@@ -93,7 +93,7 @@ char* get_directory_contents(char* directory_path)
       closedir(path);
   }
 
-  return directory_listing;
+  return body_section;
 }
 
 /* char* parseRequest(char* request)
@@ -162,7 +162,11 @@ void serve_request(int client_fd){
 	  if(stat(index_check, &file_stat) != 0) { // index.html not found
 		  printf("index.html not found. %s\n", index_check);
 		  
-		  exit(0);
+		  send_buf = get_directory_contents(&requested_file[1]);
+		  retval = send(client_fd,send_buf,strlen(send_buf),0);
+		  
+		  close(client_fd);
+		  return;
 
 	  }
 	  else{ // index.html is found, run and send that
