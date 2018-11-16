@@ -140,7 +140,9 @@ void serve_request(int client_fd){
 	  }
 	  else{ // index.html is found, run and send that
 		  printf("index.html found. %s\n", index_check);
-		  exit(0);
+		  	  request_str = "HTTP/1.0 200 OK\r\n"
+				"Content-type: text/html; charset=UTF-8\r\n\r\n";
+			  requested_file = index_check;
 	  }
   }
   else if (strstr(requested_file, ".html")){
