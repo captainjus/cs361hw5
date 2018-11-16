@@ -45,25 +45,51 @@ char* get_directory_contents(char* directory_path)
   if(path != NULL)
   {
       directory_listing = (char*)malloc(sizeof(char)*1013);
+	  char* body_section = NULL;
       directory_listing[0] = '\0';
 
       // stores underlying info of files and sub_directories of directory_path
       struct dirent* underlying_file = NULL;
 
+	  sprintf(body_section, "<html><head><title>%s</title></head>");
+	  sprintf(body_section, "<body>");
+	  
       // iterate through all of the  underlying files of directory_path
       while((underlying_file = readdir(path)) != NULL)
       {
-          strcat(directory_listing, underlying_file->d_name);
-          strcat(directory_listing, "\n");
+		  if (strstr(underlying_file->d_name, ".html")){
+			  sprintf(body_section, "<a href=\"%s\">%s</a>", underlying_file->d_name, underlying_file->d_name);
+		  }
+		  else if (strstr(underlying_file->d_name, ".gif")){
+			  sprintf(body_section, "<a href=\"%s\">%s</a>", underlying_file->d_name, underlying_file->d_name);
+		  }
+		  else if (strstr(underlying_file->d_name, ".png")){
+			  sprintf(body_section, "<a href=\"%s\">%s</a>", underlying_file->d_name, underlying_file->d_name);
+		  }
+		  else if (strstr(underlying_file->d_name, ".jpeg")){
+			  sprintf(body_section, "<a href=\"%s\">%s</a>", underlying_file->d_name, underlying_file->d_name);
+		  }
+		  else if (strstr(underlying_file->d_name, ".pdf")){
+			  sprintf(body_section, "<a href=\"%s\">%s</a>", underlying_file->d_name, underlying_file->d_name);
+		  }
+		  else if (strstr(underlying_file->d_name, ".ico")){
+			  sprintf(body_section, "<a href=\"%s\">%s</a>", underlying_file->d_name, underlying_file->d_name);
+		  }
+		  else{
+			  sprintf(body_section, "<a href=\"%s\">%s</a>", underlying_file->d_name, underlying_file->d_name);
+		  }
+		  
       }
 	  
-		//<html><body>
-		//<img src="monorail.jpg">
-		//<img src="skype.png">
-		//<img src="google.gif">
-		//</body></html>
-
-      
+	  sprintf(body_section, "</body></html>");
+	  
+			//<html><head><title>Lab 4 test pages</title></head>
+			//<body>
+			//This is a test text.
+			//<a href="pic.html">test link</a>
+			//</body></html>
+			
+			
       closedir(path);
   }
 
@@ -135,6 +161,7 @@ void serve_request(int client_fd){
 	  char* index_check = strcat(&requested_file[1], "/index.html");
 	  if(stat(index_check, &file_stat) != 0) { // index.html not found
 		  printf("index.html not found. %s\n", index_check);
+		  
 		  exit(0);
 
 	  }
@@ -156,9 +183,9 @@ void serve_request(int client_fd){
 	  request_str = "HTTP/1.0 200 OK\r\n"
         "Content-type: image/png; charset=UTF-8\r\n\r\n";
   }
-  else if (strstr(requested_file, ".jpg")){
+  else if (strstr(requested_file, ".jpeg")){
 	  request_str = "HTTP/1.0 200 OK\r\n"
-        "Content-type: image/gif; charset=UTF-8\r\n\r\n";
+        "Content-type: image/jpeg; charset=UTF-8\r\n\r\n";
   }
   else if (strstr(requested_file, ".pdf")){
 	  request_str = "HTTP/1.0 200 OK\r\n"
