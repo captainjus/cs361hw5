@@ -51,7 +51,7 @@ char* get_directory_contents(char* directory_path)
       // stores underlying info of files and sub_directories of directory_path
       struct dirent* underlying_file = NULL;
 
-	  sprintf(body_section, "<html><head><title>%s</title></head>");
+	  sprintf(body_section, "<html><head><title>%s</title></head>", directory_path);
 	  sprintf(body_section, "<body>");
 	  
       // iterate through all of the  underlying files of directory_path
