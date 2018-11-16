@@ -118,7 +118,6 @@ void serve_request(int client_fd){
   if (stat(&requested_file[1], &file_stat) != 0) { // File doesn't exist
 	  request_str = "HTTP/1.0 404 Not found\r\n"
 		"Content-type: text/html; charset=UTF-8\r\n\r\n";
-	  //requested_file = "/404.html";
 	  retval = send(client_fd,request_str,strlen(request_str),0);
 	  
 	  char* send_buf = "<html><head><title>404</title></head>"
@@ -150,7 +149,7 @@ void serve_request(int client_fd){
 		  printf("%s", index_hdr);
 		  request_str = "HTTP/1.0 200 OK\r\n"
 			"Content-type: text/html; charset=UTF-8\r\n\r\n";
-		  requested_file = "index.html";
+		  requested_file = strcat(requested_file, "/index.html");
 	  }
   }
   else if (strstr(requested_file, ".html")){
