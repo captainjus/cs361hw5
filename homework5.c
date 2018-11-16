@@ -42,8 +42,7 @@ char* get_directory_contents(char* directory_path)
   DIR* path = opendir(directory_path);
 
   // check to see if opening up directory was successful
-  if(path != NULL)
-  {
+
       directory_listing = (char*)malloc(sizeof(char)*1013);
 	  char* body_section = NULL;
       directory_listing[0] = '\0';
@@ -83,17 +82,9 @@ char* get_directory_contents(char* directory_path)
 	  
 	  sprintf(body_section, "</body></html>");
 	  
-			//<html><head><title>Lab 4 test pages</title></head>
-			//<body>
-			//This is a test text.
-			//<a href="pic.html">test link</a>
-			//</body></html>
-			
-			
       closedir(path);
-  }
+	  return body_section;
 
-  return body_section;
 }
 
 /* char* parseRequest(char* request)
