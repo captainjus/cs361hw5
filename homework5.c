@@ -130,7 +130,7 @@ void serve_request(int client_fd){
   
   char * request_str = NULL;
 		
-  printf("Current working directory: %s", getcwd(request_str, 600));
+  //printf("Current working directory: %s", getcwd(request_str, 600));
   struct stat file_stat;
   if (stat(&requested_file[1], &file_stat) != 0) { // File doesn't exist
 	  request_str = "HTTP/1.0 404 Not found\r\n"
@@ -153,6 +153,14 @@ void serve_request(int client_fd){
 	  if(stat(index_check, &file_stat) != 0) { // index.html not found
 		  printf("index.html not found. %s\n", index_check);
 		  
+		  /*char* send_buf = get_directory_contents(&requested_file[1]);
+		  retval = send(client_fd,send_buf,strlen(send_buf),0);
+		  
+		  close(client_fd);
+		  return;
+		  */
+		  
+		  exit(0);
 	  }
 	  else{ // index.html is found, run and send that
 		  printf("index.html found. %s\n", index_check);
