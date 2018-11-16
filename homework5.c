@@ -149,7 +149,7 @@ void serve_request(int client_fd){
   }
   else if (S_ISDIR(file_stat.st_mode)){ // before looking for files we check dir
 	  //chdir(&requested_file[1]);
-	  /*char* index_check = strcat(&requested_file[1], "/index.html");
+	  char* index_check = strcat(&requested_file[1], "/index.html");
 	  if(stat(index_check, &file_stat) != 0) { // index.html not found
 		  printf("index.html not found. %s\n", index_check);
 		  
@@ -166,7 +166,7 @@ void serve_request(int client_fd){
 		  printf("index.html found. %s\n", index_check);
 		  	  request_str = "HTTP/1.0 200 OK\r\n"
 				"Content-type: text/html; charset=UTF-8\r\n\r\n";
-	  }*/
+	  }
 	  exit(0);
   }
   else if (strstr(requested_file, ".html")){
