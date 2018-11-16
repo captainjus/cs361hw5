@@ -134,15 +134,15 @@ void serve_request(int client_fd){
   else if (S_ISDIR(file_stat.st_mode)){ // before looking for files we check dir
 	  //chdir(&requested_file[1]);
 	  if(stat(strcat(requested_file, "index.html"), &file_stat) != 0) { // index.html not found
-		  printf("index.html not found. Exiting\n");
+		  printf("index.html not found. %s\n", strcat(requested_file, "index.html"));
 		  
 		  request_str = "HTTP/1.0 200 OK\r\n"
 			"Content-type: text/html; charset=UTF-8\r\n\r\n";
-			
+		  
+		  
 		  //send_buf = get_directory_contents(&requested_file[1]);
 		  //retval = send(client_fd,send_buf,strlen(send_buf),0);
-	   
-	      close(client_fd);
+
 		  return;
 	  }
 	  else{ // index.html is found, run and send that
